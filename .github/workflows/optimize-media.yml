@@ -27,6 +27,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install pillow ffmpeg-python
 
+      - name: List ffmpeg encoders
+        run: ffmpeg -encoders
+
       - name: Make Script Executable
         run: chmod +x ./scripts/optimize_media.py
 

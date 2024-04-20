@@ -3,7 +3,8 @@ name: Optimize Media
 on:
   push:
     paths:
-      - 'media/original/**'
+      - 'global/media/original/**'
+      - 'project*/media/original/**'
 
 jobs:
   optimize:
@@ -26,10 +27,10 @@ jobs:
       - name: Optimize Images and Videos
         run: python ./scripts/optimize_media.py
 
-      - name: Commit files
+      - name: Commit and Push Changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add media/optimized/*
+          git add .
           git commit -m "Optimize media files" -a || echo "No changes to commit"
           git push

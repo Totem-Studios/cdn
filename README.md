@@ -1,11 +1,13 @@
 # Totem Studios CDN
 
+(This is just the general structure and the optimizing workflow arent working at the moment so dont use this for production yet!!!!!!)
+
 This repository is for accessing, editing, adding and removing all the current media used across all other projects.
 
 To access the media, please go to the following link:
 
 ```
-https://cdn.totemstudios.io/
+https://cdn.totemstudios.org/
 ```
 
 If you would like to contribute to the media, please follow the steps below:

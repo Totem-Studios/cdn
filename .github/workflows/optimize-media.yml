@@ -4,7 +4,8 @@ on:
   push:
     paths:
       - 'global/media/original/**'
-      - 'project*/media/original/**'
+      - 'project1/media/original/**'
+  workflow_dispatch:
 
 jobs:
   optimize:
@@ -19,13 +20,15 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install ffmpeg
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
-
-      - name: Install Python Dependencies
+      - name: Install Dependencies
         run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
           python -m pip install --upgrade pip
           pip install pillow ffmpeg-python
+
+      - name: Make Script Executable
+        run: chmod +x ./scripts/optimize_media.py
 
       - name: Optimize Images and Videos
         run: python ./scripts/optimize_media.py
@@ -34,6 +37,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add .
+          git add global/media/optimized/** project1/media/optimized/**
           git commit -m "Optimize media files" -a || echo "No changes to commit"
           git push

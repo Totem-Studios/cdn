@@ -25,7 +25,9 @@ def process_directory(directory):
     """Processes directories to find original media, optimize it, and copy to optimized directory."""
     print(f"Processing directory: {directory}")
     for root, dirs, files in os.walk(directory):
+        print(f"Current directory: {root}")
         for file in files:
+            print(f"Processing file: {file}")
             original_path = os.path.join(root, file)
             optimized_path = original_path.replace('original', 'optimized')
             if not os.path.exists(optimized_path):
@@ -34,11 +36,12 @@ def process_directory(directory):
                     optimize_image(original_path, optimized_path)
                 elif file.lower().endswith(('mp4', 'mov')):
                     optimize_video(original_path, optimized_path)
+            else:
+                print(f"Optimized file already exists: {optimized_path}")
 
 def main():
-    # Process global directory
     process_directory('./global/media/original')
-    process_directory(f'./project1/media/original')
+    process_directory('./project1/media/original')
 
 if __name__ == '__main__':
     main()

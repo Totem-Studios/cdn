@@ -1,18 +1,15 @@
-name: Optimize Media
+name: Optimize Media Files
 
 on:
   push:
     paths:
       - 'global/media/original/**'
-      - 'project1/media/original/**'
-  workflow_dispatch:
 
 jobs:
-  optimize:
+  optimize_media:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -23,23 +20,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg
-          python -m pip install --upgrade pip
-          pip install pillow ffmpeg-python
+          sudo apt-get install -y ffmpeg libavcodec-extra
 
-      - name: List ffmpeg encoders
-        run: ffmpeg -encoders
-
-      - name: Make Script Executable
-        run: chmod +x ./scripts/optimize_media.py
-
-      - name: Optimize Images and Videos
+      - name: Optimize Videos
         run: python ./scripts/optimize_media.py
-
-      - name: Commit and Push Changes
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add global/media/optimized/** project1/media/optimized/**
-          git commit -m "Optimize media files" -a || echo "No changes to commit"
-          git push

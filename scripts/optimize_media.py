@@ -3,8 +3,9 @@ from PIL import Image
 import ffmpeg
 
 def optimize_image(file_path, output_path):
-    print(f"Optimizing image: {file_path}")
+    """Optimizes images and saves them to the specified output path."""
     try:
+        print(f"Optimizing and copying image: {file_path}")
         image = Image.open(file_path)
         image.save(output_path, optimize=True, quality=85)
         print(f"Image saved to {output_path}")
@@ -12,14 +13,16 @@ def optimize_image(file_path, output_path):
         print(f"Error optimizing image {file_path}: {e}")
 
 def optimize_video(file_path, output_path):
-    print(f"Optimizing video: {file_path}")
+    """Optimizes videos and saves them to the specified output path."""
+    print(f"Optimizing and copying video: {file_path}")
     try:
-        ffmpeg.input(file_path).output(output_path, codec='libx264', crf=23).run(overwrite_output=True)
+        ffmpeg.input(file_path).output(output_path, codec='libx264', crf=28, preset='medium').run(overwrite_output=True)
         print(f"Video saved to {output_path}")
     except ffmpeg.Error as e:
         print(f"Failed to optimize video {file_path}: {e}")
 
 def process_directory(directory):
+    """Processes directories to find original media, optimize it, and copy to optimized directory."""
     print(f"Processing directory: {directory}")
     for root, dirs, files in os.walk(directory):
         for file in files:
@@ -35,6 +38,7 @@ def process_directory(directory):
                         optimize_video(file_path, output_path)
 
 def main():
+    # You can update this path as needed
     process_directory('./global/media/original')
     for i in range(1, 13):  # Adjust the range based on your project numbers
         process_directory(f'./project{i}/media/original')

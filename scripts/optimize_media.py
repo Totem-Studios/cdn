@@ -26,22 +26,19 @@ def process_directory(directory):
     print(f"Processing directory: {directory}")
     for root, dirs, files in os.walk(directory):
         for file in files:
-            file_path = os.path.join(root, file)
-            if 'original' in root:
-                output_root = root.replace('original', 'optimized')
-                os.makedirs(output_root, exist_ok=True)
-                output_path = os.path.join(output_root, file)
-                if not os.path.exists(output_path):
-                    if file.lower().endswith(('png', 'jpg', 'jpeg')):
-                        optimize_image(file_path, output_path)
-                    elif file.lower().endswith(('mp4', 'mov')):
-                        optimize_video(file_path, output_path)
+            original_path = os.path.join(root, file)
+            optimized_path = original_path.replace('original', 'optimized')
+            if not os.path.exists(optimized_path):
+                os.makedirs(os.path.dirname(optimized_path), exist_ok=True)
+                if file.lower().endswith(('png', 'jpg', 'jpeg')):
+                    optimize_image(original_path, optimized_path)
+                elif file.lower().endswith(('mp4', 'mov')):
+                    optimize_video(original_path, optimized_path)
 
 def main():
-    # You can update this path as needed
+    # Process global directory
     process_directory('./global/media/original')
-    for i in range(1, 13):  # Adjust the range based on your project numbers
-        process_directory(f'./project{i}/media/original')
+    process_directory(f'./project1/media/original')
 
 if __name__ == '__main__':
     main()

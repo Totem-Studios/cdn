@@ -1,6 +1,6 @@
 # Totem Studios CDN
 
-(This is just the general structure and the optimizing workflow arent working at the moment so dont use this for production yet!!!!!!)
+(This is just the general structure and the optimizing workflow aren't working at the moment so dont use this for production yet!!!!!!)
 
 This repository is for accessing, editing, adding and removing all the current media used across all other projects.
 
